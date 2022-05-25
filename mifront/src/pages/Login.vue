@@ -38,7 +38,7 @@
                       </template>
                     </q-input>
                   </div>
-                  <div class="col-12 q-pt-md">
+                  <div class="col-12 ">
                     <q-input outlined v-model="password" label="password*" :type="isPwd ? 'password' : 'text'" hint="Porfavor ingresar password" :rules="rule">
                       <template v-slot:prepend>
                         <q-icon name="lock" />
@@ -68,20 +68,6 @@
               <div class="text-caption text-grey">Los campos marcados con asterisco (<span class="text-red">*</span>) son obligatorios</div>
               <q-form @submit.prevent="registrar">
                 <div class="row">
-                  <div class="col-12 text-center flex flex-center">
-                    <q-uploader
-                      accept=".jpg, .png"
-                      @added="uploadFile"
-                      auto-upload
-                      max-files="1"
-                      label="Ingresar el logo de su empresa"
-                      flat
-                      bordered
-                    />
-                  </div>
-                  <div class="col-12">
-                    <div class="text-caption text-grey">Te recomendamos que la imagen tenga un tamaño de 500 x 500 px en formato PNG y pese máximo 2MB.</div>
-                  </div>
                   <div class="col-12">
                     <!--                    color="purple-12"-->
 <!--                    <q-input outlined type="email" v-model="user.email" label="Email*" hint="Porfavor ingresar email" :rules="rule" required>-->
@@ -90,12 +76,12 @@
 <!--                      </template>-->
 <!--                    </q-input>-->
                     <q-select
+                       dense
                       outlined
-                      hint="Selecionar una categoria"
-                      v-model="model"
+                      hint="Seleccionar una categoria"
+                      v-model="user.tipos"
                       :options="options"
-                      label="Tipo de negocio"
-
+                      label="Tipo de negocio *"
                     >
                       <template v-slot:option="scope">
                         <q-item v-bind="scope.itemProps">
@@ -113,51 +99,51 @@
                       </template>
                     </q-select>
                   </div>
-                  <div class="col-12 q-pt-md">
-                    <q-input outlined v-model="user.nombre" label="Nombre del negocio*" hint="Porfavor ingresar nombre de la empresa" :rules="rule" required>
+                  <div class="col-12 ">
+                    <q-input dense outlined v-model="user.nombre" label="Nombre del negocio*" hint="Porfavor ingresar nombre de la empresa" :rules="rule" required>
                       <template v-slot:prepend>
                         <q-icon name="factory" />
                       </template>
                     </q-input>
                   </div>
-                  <div class="col-12 q-pt-md">
-                    <q-input outlined v-model="user.direccion" label="Dirección del negocio" hint="Porfavor ingresar direccion" >
+                  <div class="col-12 ">
+                    <q-input dense outlined v-model="user.direccion" label="Dirección del negocio" hint="Porfavor ingresar direccion" >
                       <template v-slot:prepend>
                         <q-icon name="share_location" />
                       </template>
                     </q-input>
                   </div>
-                  <div class="col-12 q-pt-md">
-                    <q-input outlined v-model="user.direccion" label="Ciudad donde se ubica el negocio" hint="Porfavor ingresar ciudad" >
+                  <div class="col-12 ">
+                    <q-input dense outlined v-model="user.ciudad" label="Ciudad donde se ubica el negocio" hint="Porfavor ingresar ciudad" >
                       <template v-slot:prepend>
                         <q-icon name="location_city" />
                       </template>
                     </q-input>
                   </div>
-                  <div class="col-12 q-pt-md">
-                    <q-input outlined type="email" v-model="user.email" label="Email*" hint="Porfavor ingresar email" :rules="rule" required>
+                  <div class="col-12 ">
+                    <q-input dense outlined type="email" v-model="user.email" label="Email*" hint="Porfavor ingresar email" :rules="rule" required>
                       <template v-slot:prepend>
                         <q-icon name="email" />
                       </template>
                     </q-input>
                   </div>
 
-<!--                  <div class="col-12 q-pt-md">-->
-<!--                    <q-input outlined v-model="user.carnet" label="Carnet o NIT*" hint="Porfavor ingresar carnet o nit" :rules="rule">-->
+<!--                  <div class="col-12 ">-->
+<!--                    <q-input dense outlined v-model="user.carnet" label="Carnet o NIT*" hint="Porfavor ingresar carnet o nit" :rules="rule">-->
 <!--                      <template v-slot:prepend>-->
 <!--                        <q-icon name="credit_card" />-->
 <!--                      </template>-->
 <!--                    </q-input>-->
 <!--                  </div>-->
-                  <div class="col-12 q-pt-md">
-                    <q-input outlined v-model="user.name" label="Nombre completo*" hint="Porfavor ingresar nombre completo" :rules="rule">
+                  <div class="col-12 ">
+                    <q-input dense outlined v-model="user.name" label="Nombre completo*" hint="Porfavor ingresar nombre completo" :rules="rule">
                       <template v-slot:prepend>
                         <q-icon name="people" />
                       </template>
                     </q-input>
                   </div>
-                  <div class="col-12 q-pt-md">
-                    <q-input outlined v-model="user.password" label="password*" :type="isPwd ? 'password' : 'text'" hint="Porfavor ingresar carnet de identidad" :rules="rule">
+                  <div class="col-12 ">
+                    <q-input dense outlined v-model="user.password" label="password*" :type="isPwd ? 'password' : 'text'" hint="Porfavor ingresar carnet de identidad" :rules="rule">
                       <template v-slot:prepend>
                         <q-icon name="lock" />
                       </template>
@@ -170,21 +156,36 @@
                       </template>
                     </q-input>
                   </div>
-<!--                  <div class="col-12 q-pt-md">-->
-<!--                    <q-select use-input @filter="filterFn" outlined v-model="user.unit" label="Unidad*" :options="units" option-label="nombre"  hint="Porfavor ingresar unidad"  >-->
+<!--                  <div class="col-12 ">-->
+<!--                    <q-select use-input @filter="filterFn" dense outlined v-model="user.unit" label="Unidad*" :options="units" option-label="nombre"  hint="Porfavor ingresar unidad"  >-->
 <!--                      <template v-slot:prepend>-->
 <!--                        <q-icon name="home" />-->
 <!--                      </template>-->
 <!--                    </q-select>-->
 <!--                  </div>-->
 <!--                  <div class="col-12">-->
-<!--                    <q-input outlined v-model="user.direccion" label="Direccion*" hint="Direccion de donde vives" :rules="rule">-->
+<!--                    <q-input dense outlined v-model="user.direccion" label="Direccion*" hint="Direccion de donde vives" :rules="rule">-->
 <!--                      <template v-slot:prepend>-->
 <!--                        <q-icon name="home" />-->
 <!--                      </template>-->
 <!--                    </q-input>-->
 <!--                  </div>-->
+                  <div class="col-12 text-center flex flex-center">
+                    <q-uploader
+                      accept=".jpg, .png"
+                      @added="uploadFile"
+                      auto-upload
+                      max-files="1"
+                      label="Ingresar el logo de su empresa"
+                      flat
+                      bordered
+                    />
+                  </div>
+                  <div class="col-12">
+                    <div class="text-caption text-grey">Te recomendamos que la imagen tenga un tamaño de 500 x 500 px en formato PNG y pese máximo 2MB.</div>
+                  </div>
                   <div class="col-12 q-py-md">
+
                     <q-btn label="Crea tu cuenta" color="primary" icon="login" class="full-width" type="submit"/>
                     <q-btn label="Ingresa" color="secondary" icon="how_to_reg" @click="tab='login'" class="full-width q-mt-xs" />
                     <div class="text-caption q-py-xs">
@@ -209,7 +210,7 @@ export default {
   data(){
     return{
       model:'',
-
+      foto:' ',
       options: [
         {
           label: 'Supermercado o tienda de conveniencia',
@@ -272,7 +273,7 @@ export default {
       // console.log(file)
       // function showDefault () {
         let dialog = this.$q.dialog({
-          message: 'Uploading... 0%',
+          message: 'Subiendo... 0%',
           progress: true, // we enable default settings
           persistent: true, // we want the user to not be able to close it
           ok: false // we want the user to not be able to close it
@@ -285,7 +286,7 @@ export default {
         //
         //   // we update the dialog
         //   dialog.update({
-        //     message: `Uploading... ${percentage}%`
+        //     message: `Subiendo... ${percentage}%`
         //   })
         //
         //   // if we are done, we're gonna close it
@@ -310,7 +311,7 @@ export default {
               percentage = Math.round((progressEvent.loaded / progressEvent.total) * 100)
 
               dialog.update({
-                message: `Uploading... ${percentage}%`
+                message: `Subiendo... ${percentage}%`
               })
               if (percentage>=100){
                 dialog.hide()
@@ -319,7 +320,8 @@ export default {
             }
           })
           .then(res => {
-            console.log(res.data)
+            // console.log(res.data)
+            this.foto=res.data
             resolve(file)
           })
           .catch(err => reject(err))
@@ -341,33 +343,42 @@ export default {
     },
     registrar(){
       // console.log(this.user.unit_id)
-      if (this.user.unit=='' || this.user.unit==undefined){
+      if (this.user.tipos=='' || this.user.tipos==undefined){
         this.$q.notify({
-          message:'Debes seleccionar unidad',
+          message:'Debes seleccionar tipo de negocio',
           color:'red',
           icon:'error'
         })
         return false
       }
       this.$q.loading.show()
-      this.user.unit_id=this.user.unit.id
-      this.$store.dispatch('login/register', this.user).then(() =>{
+      // this.user.unit_id=this.user.unit.id
+      this.user.foto=this.foto
+      this.user.tipo=this.user.tipos.label
+      this.$store.dispatch('login/register', this.user).then((res) =>{
+        // console.log(res.data)
+        // return false
         this.$q.loading.hide()
         this.$router.push('/home')
       })
         .catch(err => {
           this.$q.loading.hide();
           // console.log(err.response.data.errors)
-          let text=''
-          Object.entries(err.response.data.errors).forEach(([key, value]) => {
-            // console.log(`${key} ${value}`);
-            text+=' '+`${key}: ${value},`
-          });
           this.$q.notify({
-            message:text,
+            message:err.response.data.message,
             color:'red',
             icon:'error'
           })
+          // let text=''
+          // Object.entries(err.response.data.errors).forEach(([key, value]) => {
+          //   // console.log(`${key} ${value}`);
+          //   text+=' '+`${key}: ${value},`
+          // });
+          // this.$q.notify({
+          //   message:text,
+          //   color:'red',
+          //   icon:'error'
+          // })
         })
     },
     login () {
@@ -378,7 +389,7 @@ export default {
       })
         .catch(err => {
           this.$q.loading.hide();
-          console.log(err.response.data.res)
+          // console.log(err.response.data.res)
           this.$q.notify({
             message:err.response.data.res,
             color:'red',

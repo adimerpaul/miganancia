@@ -2,7 +2,8 @@ export default function () {
   return {
     status: '',
     token: localStorage.getItem('tokenmi') || '',
-    // user : {unit:{}},
+    user : {name:''},
+    negocios:[]
     // pedido:[],
     // boolusuarios:false,
     // boolrecepcion:false,

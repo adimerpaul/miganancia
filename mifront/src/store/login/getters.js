@@ -12,6 +12,9 @@ export function authStatus (state) {
 export function user (state) {
   return state.user
 }
+export function negocios (state) {
+  return state.negocios
+}
 export function unit (state) {
   return state.user.unit
 }
