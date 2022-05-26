@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header bordered class="text-black bg-white" style="border-bottom: 5px solid #009940">
+    <q-header bordered class="text-black bg-white" :style="title=='Balance'?'border-bottom: 5px solid #009940':''">
       <q-toolbar>
         <q-btn
           flat
