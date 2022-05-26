@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Negocio;
 use App\Http\Requests\StoreNegocioRequest;
 use App\Http\Requests\UpdateNegocioRequest;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class NegocioController extends Controller
 {
@@ -36,7 +38,10 @@ class NegocioController extends Controller
      */
     public function store(StoreNegocioRequest $request)
     {
-        //
+        $negocio=Negocio::create($request->all());
+        $user=User::find($request->user_id);
+        $user->minegocio=$negocio->id;
+        $user->save();
     }
 
     /**
@@ -45,9 +50,12 @@ class NegocioController extends Controller
      * @param  \App\Models\Negocio  $negocio
      * @return \Illuminate\Http\Response
      */
-    public function show(Negocio $negocio)
+    public function show($user_id,Request $request)
     {
-        //
+        return response()->json([
+            "user"=>$request->user(),
+            "negocios"=>Negocio::where('user_id',$user_id)->get()
+        ],200);
     }
 
     /**
@@ -70,7 +78,7 @@ class NegocioController extends Controller
      */
     public function update(UpdateNegocioRequest $request, Negocio $negocio)
     {
-        //
+        $negocio->update($request->all());
     }
 
     /**

@@ -24,6 +24,27 @@ export function login({commit}, user) {
       })
   })
 }
+export function negocios({commit},user_id){
+  return new Promise((resolve,reject)=>{
+    api.get('negocio/'+user_id).then(res=>{
+      // console.log(res.data)
+      commit('negocios_request',res.data)
+      resolve(res)
+    }).catch(err=>{
+      reject(err)
+    })
+  })
+}
+
+export function updateUser({commit},data){
+  return new Promise((resolve,reject)=>{
+    api.put('user/'+data.id,data).then(res=>{
+      resolve(res)
+    }).catch(err=>{
+      reject(err)
+    })
+  })
+}
 export function register({commit}, user) {
   return new Promise((resolve, reject) => {
     commit('auth_request')

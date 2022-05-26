@@ -15,6 +15,9 @@ export function user (state) {
 export function negocios (state) {
   return state.negocios
 }
+export function negocio (state) {
+  return state.negocio
+}
 export function unit (state) {
   return state.user.unit
 }

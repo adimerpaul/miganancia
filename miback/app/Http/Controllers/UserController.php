@@ -32,6 +32,8 @@ class UserController extends Controller
         $negocio->ciudad=$request->ciudad;
         $negocio->user_id=$user->id;
         $negocio->save();
+        $user->minegocio=$negocio->id;
+        $user->save();
 //        return $negocio;
 //        $permiso = Permiso::find([3]);
 //        $user->permisos()->attach($permiso);
@@ -39,6 +41,7 @@ class UserController extends Controller
         return response()->json([
             'token'=>$token,
             'user'=>User::where('id',$user->id)
+                ->with('negocios')
 //                ->with('permisos')
 //                ->with('unit')
                 ->firstOrFail()
@@ -142,9 +145,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $user->update($request->all());
+//        return response()->json([
+//            "user"=>$request->user(),
+//            "negocios"=>Negocio::where('user_id',$request->user()->id)->get()
+//        ],200);
     }
 
     /**

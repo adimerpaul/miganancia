@@ -5,11 +5,23 @@ export function someMutation (state) {
 export function auth_request(state){
   state.status = 'loading'
 }
+export function negocios_request(state,data){
+  state.negocios=data.negocios
+  state.user=data.user
+  // state.negocio=
+  let ne= state.negocios.find(n=>n.id===state.user.minegocio)
+  // console.log(ne)
+  state.negocio= ne
+}
 export function auth_success(state, data){
   state.status = 'success'
   state.token = data.token
   state.user = data.user
   state.negocios = data.user.negocios
+  // console.log(data.user)
+  let ne= data.user.negocios.find(n=>n.id===data.user.minegocio)
+  // console.log(ne)
+  state.negocio= ne
   // state.boolusuarios=data.user.permisos.find(p=>p.id===1)!=undefined
   // state.boolrecepcion=data.user.permisos.find(p=>p.id===2)!=undefined
   // state.booldesignacion=data.user.permisos.find(p=>p.id===3)!=undefined

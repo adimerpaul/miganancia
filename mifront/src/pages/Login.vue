@@ -360,8 +360,7 @@ export default {
         // return false
         this.$q.loading.hide()
         this.$router.push('/home')
-      })
-        .catch(err => {
+      }).catch(err => {
           this.$q.loading.hide();
           // console.log(err.response.data.errors)
           this.$q.notify({

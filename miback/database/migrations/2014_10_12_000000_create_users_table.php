@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('fechalimite')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->integer('minegocio')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });
