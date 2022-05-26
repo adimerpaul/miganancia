@@ -2,6 +2,8 @@
 
 import Login from "pages/Login";
 import Home from "pages/Home";
+import Inventario from "pages/Inventario";
+import Deudas from "pages/Deudas";
 
 const routes = [
   {
@@ -10,6 +12,8 @@ const routes = [
     children: [
       { path: '', component: Login},
       { path: 'home', component: Home,meta: {requiresAuth: true}},
+      { path: 'inventario', component: Inventario,meta: {requiresAuth: true}},
+      { path: 'deudas', component: Deudas,meta: {requiresAuth: true}},
     ]
   },
   // {

@@ -47,6 +47,7 @@ export function salir(state){
   state.token = ''
   state.user = {}
   state.negocios = []
+  state.negocio={}
   // state.boolusuarios=false
   // state.boolrecepcion=false
   // state.boolseguimiento=false

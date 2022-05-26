@@ -11,8 +11,51 @@
           @click="toggleLeftDrawer"
         />
         <q-toolbar-title class="text-bold">
-          Mi Ganancia.com
+<!--          Mi Ganancia.com-->
+          {{title}}
         </q-toolbar-title>
+<!--                      <q-icon name="add_circle" />-->
+<!--        <q-icon name="o_add_circle" />-->
+<!--                      <q-icon name="r_add_circle" />-->
+<!--                      <q-icon name="s_add_circle" />-->
+        <q-btn-dropdown
+          v-if="title=='Balance'"
+          split1
+          color="green"
+          push1
+          glossy1
+          no-caps
+          icon="add_circle_outline"
+          :label="$q.screen.lt.md?'':'Nueva venta'"
+        >
+          <q-list>
+            <q-item clickable v-close-popup>
+              <q-item-section avatar>
+                <q-avatar icon="shopping_basket" color="grey" text-color="white" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Venta de productos</q-item-label>
+                <q-item-label caption>Registra una venta seleccionando los productos de tu inventario.</q-item-label>
+              </q-item-section>
+<!--              <q-item-section side>-->
+<!--                <q-icon name="info" color="amber" />-->
+<!--              </q-item-section>-->
+            </q-item>
+            <q-item clickable v-close-popup>
+              <q-item-section avatar>
+                <q-avatar icon="local_atm" color="grey" text-color="white" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Venta libre</q-item-label>
+                <q-item-label caption>Registra un ingreso sin seleccionar productos de tu inventario.</q-item-label>
+              </q-item-section>
+<!--              <q-item-section side>-->
+<!--                <q-icon name="info" color="amber" />-->
+<!--              </q-item-section>-->
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
+        <q-btn v-if="title=='Balance'" color="red-10" :label="$q.screen.lt.md?'':'Nuevo gasto'" class="q-ml-xs" icon="remove_circle_outline" no-caps/>
       </q-toolbar>
     </q-header>
     <q-drawer
@@ -79,20 +122,31 @@
               </q-card>
             </q-item-section>
           </q-item>
-          <q-item class="full-width text-grey-8" exact to="home" clickable v-if="$store.getters['login/isLoggedIn']">
+          <q-item active-class="active" style="font-weight: bold" exact to="home" clickable v-if="$store.getters['login/isLoggedIn']">
             <q-item-section avatar>
-              <q-icon name="help_outline" />
+              <q-icon name="balance" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>¿Necesitas contactar a soporte? ¡Hazlo aquí!</q-item-label>
+              <q-item-label>Balance</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item class="full-width text-grey-8" exact to="inventario" clickable v-if="$store.getters['login/isLoggedIn']">
+          <q-item active-class="active" style="font-weight: bold" exact to="inventario" clickable v-if="$store.getters['login/isLoggedIn']">
             <q-item-section avatar>
-              <q-icon name="help_outline" />
+<!--              <q-icon name="inventory" />-->
+              <q-icon name="o_inventory" />
+<!--              <q-icon name="r_inventory" />-->
+<!--              <q-icon name="s_inventory" />-->
             </q-item-section>
             <q-item-section>
-              <q-item-label>¿Necesitas contactar a soporte? ¡Hazlo aquí!</q-item-label>
+              <q-item-label>Inventario</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item active-class="active" style="font-weight: bold" exact to="deudas" clickable v-if="$store.getters['login/isLoggedIn']">
+            <q-item-section avatar>
+              <q-icon name="pending_actions" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Deudas</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -341,6 +395,7 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+
   </q-layout>
 </template>
 
@@ -381,6 +436,20 @@ export  default({
       ],
       url:process.env.API,
       leftDrawerOpen:false,
+    }
+  },
+  created() {
+    // console.log(this.$route.params.id)
+  },
+  computed:{
+    title(){
+      // console.log(this.$route)
+      if (this.$route.fullPath=='/home') return "Balance"
+      else if (this.$route.fullPath=='/inventario') return "Inventario"
+      else if (this.$route.fullPath=='/deudas') return "Deudas"
+      else if (this.$route.fullPath=='/') return "Mi Ganancia.com"
+      return "";
+
     }
   },
   mounted() {
@@ -638,3 +707,12 @@ export  default({
   }
 })
 </script>
+<style scoped>
+.active{
+  background: rgb(255,238,179);
+  font-weight: bold;
+  color: #2d3748;
+  border-left: 5px solid #FECB18;
+}
+
+</style>

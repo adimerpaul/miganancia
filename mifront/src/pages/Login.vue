@@ -386,15 +386,15 @@ export default {
         this.$q.loading.hide()
         this.$router.push('/home')
       })
-        .catch(err => {
-          this.$q.loading.hide();
-          // console.log(err.response.data.res)
-          this.$q.notify({
-            message:err.response.data.res,
-            color:'red',
-            icon:'error'
-          })
-        })
+        // .catch(err => {
+        //   this.$q.loading.hide();
+        //   // console.log(err.response.data.res)
+        //   this.$q.notify({
+        //     message:err.response.data.res,
+        //     color:'red',
+        //     icon:'error'
+        //   })
+        // })
     },
   },
 }
