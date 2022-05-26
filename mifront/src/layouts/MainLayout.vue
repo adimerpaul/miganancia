@@ -56,6 +56,44 @@
           </q-list>
         </q-btn-dropdown>
         <q-btn v-if="title=='Balance'" color="red-10" :label="$q.screen.lt.md?'':'Nuevo gasto'" class="q-ml-xs" icon="remove_circle_outline" no-caps/>
+        <q-btn v-if="title=='Inventario'"  outline :label="$q.screen.lt.md?'':'Crear categoría'" no-caps/>
+        <q-btn-dropdown
+          v-if="title=='Inventario'"
+          class="q-ml-xs"
+          split1
+          color="warning"
+          push1
+          glossy1
+          no-caps
+          :label="$q.screen.lt.md?'':'Agregar productos'"
+        >
+          <q-list>
+            <q-item clickable v-close-popup>
+              <q-item-section avatar>
+                <q-avatar icon="sell"  text-color="grey" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Agregar productos manualmente</q-item-label>
+<!--                <q-item-label caption>Registra una venta seleccionando los productos de tu inventario.</q-item-label>-->
+              </q-item-section>
+              <!--              <q-item-section side>-->
+              <!--                <q-icon name="info" color="amber" />-->
+              <!--              </q-item-section>-->
+            </q-item>
+            <q-item clickable v-close-popup>
+              <q-item-section avatar>
+                <q-avatar icon="local_atm"  text-color="green" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Subir productos desde Excel</q-item-label>
+<!--                <q-item-label caption>Registra un ingreso sin seleccionar productos de tu inventario.</q-item-label>-->
+              </q-item-section>
+              <!--              <q-item-section side>-->
+              <!--                <q-icon name="info" color="amber" />-->
+              <!--              </q-item-section>-->
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
       </q-toolbar>
     </q-header>
     <q-drawer
