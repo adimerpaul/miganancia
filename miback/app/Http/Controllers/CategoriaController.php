@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Categoria;
 use App\Http\Requests\StoreCategoriaRequest;
 use App\Http\Requests\UpdateCategoriaRequest;
+use Illuminate\Http\Request;
 
 class CategoriaController extends Controller
 {
@@ -13,9 +14,9 @@ class CategoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return Categoria::where('negocio_id',$request->user()->minegocio)->get();
     }
 
     /**
@@ -36,7 +37,7 @@ class CategoriaController extends Controller
      */
     public function store(StoreCategoriaRequest $request)
     {
-        //
+        Categoria::create($request->all());
     }
 
     /**
@@ -70,7 +71,7 @@ class CategoriaController extends Controller
      */
     public function update(UpdateCategoriaRequest $request, Categoria $categoria)
     {
-        //
+        return $categoria->update($request->all());
     }
 
     /**
@@ -81,6 +82,6 @@ class CategoriaController extends Controller
      */
     public function destroy(Categoria $categoria)
     {
-        //
+        $categoria->delete();
     }
 }

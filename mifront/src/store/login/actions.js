@@ -35,10 +35,68 @@ export function negocios({commit},user_id){
     })
   })
 }
+export function categorias({commit},user_id){
+  return new Promise((resolve,reject)=>{
+    api.get('categoria').then(res=>{
+      // console.log(res.data)
+      commit('categorias_request',res.data)
+      resolve(res)
+    }).catch(err=>{
+      reject(err)
+    })
+  })
+}
+export function productos({commit},user_id){
+  return new Promise((resolve,reject)=>{
+    api.get('producto').then(res=>{
+      // console.log(res.data)
+      commit('productos_request',res.data)
+      resolve(res)
+    }).catch(err=>{
+      reject(err)
+    })
+  })
+}
 
 export function updateUser({commit},data){
   return new Promise((resolve,reject)=>{
     api.put('user/'+data.id,data).then(res=>{
+      resolve(res)
+    }).catch(err=>{
+      reject(err)
+    })
+  })
+}
+export function updateCategoria({commit},data){
+  return new Promise((resolve,reject)=>{
+    api.put('categoria/'+data.id,data).then(res=>{
+      resolve(res)
+    }).catch(err=>{
+      reject(err)
+    })
+  })
+}
+export function createCategoria({commit},data){
+  return new Promise((resolve,reject)=>{
+    api.post('categoria',data).then(res=>{
+      resolve(res)
+    }).catch(err=>{
+      reject(err)
+    })
+  })
+}
+export function updateProducto({commit},data){
+  return new Promise((resolve,reject)=>{
+    api.put('producto/'+data.id,data).then(res=>{
+      resolve(res)
+    }).catch(err=>{
+      reject(err)
+    })
+  })
+}
+export function createProducto({commit},data){
+  return new Promise((resolve,reject)=>{
+    api.post('producto',data).then(res=>{
       resolve(res)
     }).catch(err=>{
       reject(err)

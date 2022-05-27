@@ -22,9 +22,10 @@ return new class extends Migration
             $table->double("costo",11,2)->default()->nullable();
             $table->double("precio",11,2)->default()->nullable();
             $table->string("descripcion")->default()->nullable();
-            $table->unsignedBigInteger("categoria_id")->nullable();
+            $table->unsignedBigInteger("negocio_id");
+            $table->foreign("negocio_id")->references("id")->on("negocios");
+            $table->unsignedBigInteger("categoria_id")->nullable()->default(null);
             $table->foreign("categoria_id")->references("id")->on("categorias");
-
             $table->timestamps();
         });
     }

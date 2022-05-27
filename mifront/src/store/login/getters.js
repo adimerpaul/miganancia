@@ -18,6 +18,18 @@ export function negocios (state) {
 export function negocio (state) {
   return state.negocio
 }
+export function productos (state) {
+  return state.productos
+}
+export function producto (state) {
+  return state.producto
+}
+export function categorias (state) {
+  return state.categorias
+}
+export function categoria (state) {
+  return state.categoria
+}
 export function unit (state) {
   return state.user.unit
 }

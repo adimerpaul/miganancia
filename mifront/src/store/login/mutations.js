@@ -5,6 +5,18 @@ export function someMutation (state) {
 export function auth_request(state){
   state.status = 'loading'
 }
+export function categorias_request(state,data){
+  state.categorias=data
+}
+export function categoria_request(state,data){
+  state.categoria=data
+}
+export function productos_request(state,data){
+  state.productos=data
+}
+export function producto_request(state,data){
+  state.producto=data
+}
 export function negocios_request(state,data){
   state.negocios=data.negocios
   state.user=data.user

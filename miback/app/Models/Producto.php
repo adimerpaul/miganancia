@@ -17,5 +17,6 @@ class Producto extends Model
         "foto",
         "descripcion",
         "categoria_id",
+        "negocio_id",
     ];
 }

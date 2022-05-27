@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Producto;
 use App\Http\Requests\StoreProductoRequest;
 use App\Http\Requests\UpdateProductoRequest;
+use Illuminate\Http\Request;
 
 class ProductoController extends Controller
 {
@@ -13,9 +14,9 @@ class ProductoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return Producto::where('negocio_id',$request->user()->minegocio)->get();
     }
 
     /**
@@ -36,7 +37,7 @@ class ProductoController extends Controller
      */
     public function store(StoreProductoRequest $request)
     {
-        //
+        return Producto::create($request->all());
     }
 
     /**
@@ -70,7 +71,7 @@ class ProductoController extends Controller
      */
     public function update(UpdateProductoRequest $request, Producto $producto)
     {
-        //
+        return $producto::update($request->all());
     }
 
     /**
@@ -81,6 +82,6 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
-        //
+        $producto->delete();
     }
 }

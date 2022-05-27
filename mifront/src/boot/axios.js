@@ -23,7 +23,13 @@ export default boot(({ app ,store}) => {
     // console.log('a')
     // api.defaults.headers.common['Authorization'] = 'Bearer '+token
     app.config.globalProperties.$api.defaults.headers.common['Authorization'] = 'Bearer '+token
-    app.config.globalProperties.$api.post(process.env.API+'me').then(res=>{
+    app.config.globalProperties.$api.get('categoria').then(res=>{
+      store.commit("login/categorias_request",res.data)
+    })
+    app.config.globalProperties.$api.get('producto').then(res=>{
+      store.commit("login/productos_request",res.data)
+    })
+    app.config.globalProperties.$api.post('me').then(res=>{
       // console.log(res.data);
       // return false;
       // store.state.user=res.data;
@@ -33,7 +39,6 @@ export default boot(({ app ,store}) => {
       // console.error('aas')
       store.commit('login/salir')
       localStorage.removeItem('tokenmi')
-
     })
   }
 
