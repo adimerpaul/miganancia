@@ -509,14 +509,14 @@
               <div class="col-12">
                 <q-input dense outlined v-model="producto.costo" step="0.1" label="Costo unitario" hint="Valor que pagas al proveedor por el producto" clearable counter type="number" placeholder="Escribe el valor de la compra">
                   <template v-slot:prepend>
-                    <q-icon name="payments" />
+                    <q-icon name="request_quote" />
                   </template>
                 </q-input>
               </div>
               <div class="col-12">
                 <q-input dense outlined v-model="producto.precio" step="0.1" label="Precio*"  clearable counter :rules="ruleNumber" type="number" required placeholder="Escribe el valor de venta">
                   <template v-slot:prepend>
-                    <q-icon name="attach_money" />
+                    <q-icon name="o_sell" />
                   </template>
                 </q-input>
               </div>
@@ -597,6 +597,7 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+
   </q-layout>
 </template>
 
@@ -782,6 +783,7 @@ export  default({
         this.producto.foto=this.foto
       }
       this.$q.loading.show()
+      // console.log(this.producto)
       this.$store.dispatch("login/createProducto",this.producto).then(res=>{
         this.dialogCreateProducto=false
         this.misproductos()

@@ -341,6 +341,56 @@ export default {
         this.units = this.units2.filter(v => v.nombre.toLowerCase().indexOf(needle) > -1)
       })
     },
+    miscategorias(){
+      this.$store.dispatch('login/categorias').then((res) =>{
+        // console.log(res.data)
+        // return false
+        this.$q.loading.hide()
+        // this.$router.push('/home')
+      }).catch(err => {
+        this.$q.loading.hide();
+        // console.log(err.response.data.errors)
+        this.$q.notify({
+          message:err.response.data.message,
+          color:'red',
+          icon:'error'
+        })
+        // let text=''
+        // Object.entries(err.response.data.errors).forEach(([key, value]) => {
+        //   // console.log(`${key} ${value}`);
+        //   text+=' '+`${key}: ${value},`
+        // });
+        // this.$q.notify({
+        //   message:text,
+        //   color:'red',
+        //   icon:'error'
+        // })
+      })
+      // this.$api.get('negocio/'+this.$store.getters["login/user"].id).then(res=>{
+      //   // console.log(res.data)
+      //   // this.$store.state.login.negocios=res.data
+      // })
+      //   .catch(err=> {
+      //   this.$q.loading.hide()
+      //   this.$q.notify({
+      //     message: err.response.data.message,
+      //     color: 'red',
+      //     icon: 'error'
+      //   })
+      // })
+    },
+    misproductos(){
+      this.$store.dispatch('login/productos').then((res) =>{
+        this.$q.loading.hide()
+      }).catch(err => {
+        this.$q.loading.hide();
+        this.$q.notify({
+          message:err.response.data.message,
+          color:'red',
+          icon:'error'
+        })
+      })
+    },
     registrar(){
       // console.log(this.user.unit_id)
       if (this.user.tipos=='' || this.user.tipos==undefined){
@@ -358,6 +408,8 @@ export default {
       this.$store.dispatch('login/register', this.user).then((res) =>{
         // console.log(res.data)
         // return false
+        this.miscategorias()
+        this.misproductos()
         this.$q.loading.hide()
         this.$router.push('/home')
       }).catch(err => {
@@ -384,6 +436,8 @@ export default {
       this.$q.loading.show()
       this.$store.dispatch('login/login', { email:this.email, password:this.password }).then(() =>{
         this.$q.loading.hide()
+        this.miscategorias()
+        this.misproductos()
         this.$router.push('/home')
       })
         // .catch(err => {

@@ -71,7 +71,18 @@ class ProductoController extends Controller
      */
     public function update(UpdateProductoRequest $request, Producto $producto)
     {
-        return $producto::update($request->all());
+        $producto->update($request->all());
+//        $producto->cantidad=$request->cantidad;
+//        $producto->categoria_id=$request->categoria_id;
+//        $producto->codigo=$request->codigo;
+//        $producto->costo=$request->costo;
+//        $producto->descripcion=$request->descripcion;
+//        $producto->foto=$request->foto;
+//        $producto->negocio_id=$request->negocio_id;
+//        $producto->nombre=$request->nombre;
+//        $producto->precio=$request->precio;
+//        $producto->visible=$request->visible;
+//        $producto->save();
     }
 
     /**
