@@ -41,7 +41,7 @@
       <q-btn class="full-width full-height" label="Editar categorías" icon="o_edit" outline no-caps/>
     </div>
     <div class="col-12 col-sm-3 q-pa-xs flex flex-center">
-      <q-select class="full-width full-height text-bold" dense :options="optionsCategorias" v-model="categoria" outlined />
+      <q-select class="full-width full-height text-bold" dense :options="optionsCategoriasVer" v-model="categoriaver" outlined />
     </div>
     <div class="col-12 col-sm-6 q-pa-xs flex flex-center">
       <q-select
@@ -231,7 +231,7 @@
               <q-btn  @click="deleteProducto" label="Eliminar producto" no-caps color="red" flat   class=" text-build text-black full-width" type="button" icon="delete_outline"/>
             </div>
             <div class="col-6">
-              <q-btn label="Editar producto" no-caps color="grey" flat  class=" text-build text-black full-width" type="button" icon="o_edit"/>
+              <q-btn @click="clickUpdateProducto" label="Editar producto" no-caps color="grey" flat  class=" text-build text-black full-width" type="button" icon="o_edit"/>
             </div>
             <div class="col-12">
               <q-card flat bordered>
@@ -286,15 +286,7 @@
                 <template v-slot:append>
                   <q-icon name="add_circle_outline" @click="addCantidad(producto.cantidad)"/>
                 </template>
-                <!--                  <template v-slot:hint>-->
-                <!--                    Field hint-->
-                <!--                  </template>-->
               </q-input>
-              <!--                <q-input dense outlined v-model="producto.cantidad" label="Cantidad disponible*" hint="" >-->
-              <!--                  <template v-slot:prepend>-->
-              <!--                    <q-icon name="share_location" />-->
-              <!--                  </template>-->
-              <!--                </q-input>-->
             </div>
             <div class="col-12">
               <q-input dense outlined v-model="producto.costo" step="0.1" label="Costo unitario" hint="Valor que pagas al proveedor por el producto" clearable counter type="number" placeholder="Escribe el valor de la compra">
@@ -311,8 +303,6 @@
               </q-input>
             </div>
             <div class="col-12">
-              <!--                <pre>{{producto}}</pre>-->
-              <!--                <pre>{{optionsCategorias}}</pre>-->
               <q-select
                 dense
                 outlined
@@ -325,21 +315,6 @@
                 <template v-slot:prepend>
                   <q-icon name="search" />
                 </template>
-                <!--                  <template v-slot:selected>-->
-                <!--                    Company:-->
-                <!--                    <q-chip-->
-                <!--                      v-if="model"-->
-                <!--                      dense-->
-                <!--                      square-->
-                <!--                      color="white"-->
-                <!--                      text-color="primary"-->
-                <!--                      class="q-my-none q-ml-xs q-mr-none"-->
-                <!--                    >-->
-                <!--                      <q-avatar color="primary" text-color="white" :icon="model.icon" />-->
-                <!--                      {{ model.label }}-->
-                <!--                    </q-chip>-->
-                <!--                    <q-badge v-else>*none*</q-badge>-->
-                <!--                  </template>-->
                 <template v-slot:option="scope">
                   <q-item v-bind="scope.itemProps" @click="clickCreateCategoriaProd(scope.opt)">
                     <q-item-section avatar v-if="scope.opt.label=='Crear una nueva categoría'">
@@ -347,7 +322,6 @@
                     </q-item-section>
                     <q-item-section>
                       <q-item-label>{{ scope.opt.label }}</q-item-label>
-                      <!--                        <q-item-label caption>{{ scope.opt.description }}</q-item-label>-->
                     </q-item-section>
                   </q-item>
                 </template>
@@ -387,6 +361,144 @@
       </q-card-section>
     </q-card>
   </q-dialog>
+  <q-dialog v-model="dialogUpdateProducto" position="right" full-height :maximized="true">
+    <q-card style="width: 450px; max-width: 80vw;">
+      <q-card-section class="row items-center q-pb-none">
+        <div class="text-h6">Editar producto</div>
+        <q-space />
+        <q-btn icon="cancel" flat round dense v-close-popup />
+      </q-card-section>
+      <q-card-section class="row items-center no-wrap">
+        <q-form @submit.prevent="updateProducto">
+          <div class="row">
+            <div class="col-12">
+              <div class="text-caption text-grey">Los campos marcados con asterisco (<span class="text-red">*</span>) son obligatorios</div>
+            </div>
+            <div class="col-12">
+              <q-input dense outlined v-model="producto.nombre" label="Nombre del producto*" hint="Porfavor ingresar nombre de la empresa" :rules="rule" required clearable counter>
+                <template v-slot:prepend>
+                  <q-icon name="add_shopping_cart" />
+                </template>
+              </q-input>
+            </div>
+            <div class="col-12 ">
+              <q-input dense outlined v-model="producto.codigo" label="Código de barras" placeholder="00000000000" hint=" ">
+                <template v-slot:prepend>
+                  <q-icon name="qr_code_2" />
+                </template>
+              </q-input>
+            </div>
+            <div class="col-12 ">
+              <q-input dense outlined bottom-slots v-model="producto.cantidad" label="Cantidad disponible*" :rules="ruleNumber" type="number" input-class="text-center" required placeholder="Escribe el nombre del producto">
+                <template v-slot:prepend>
+                  <q-icon name="remove_circle_outline"  @click="removeCantidad(producto.cantidad)"/>
+                </template>
+                <template v-slot:append>
+                  <q-icon name="add_circle_outline" @click="addCantidad(producto.cantidad)"/>
+                </template>
+              </q-input>
+            </div>
+            <div class="col-12">
+              <q-input dense outlined v-model="producto.costo" step="0.1" label="Costo unitario" hint="Valor que pagas al proveedor por el producto" clearable counter type="number" placeholder="Escribe el valor de la compra">
+                <template v-slot:prepend>
+                  <q-icon name="request_quote" />
+                </template>
+              </q-input>
+            </div>
+            <div class="col-12">
+              <q-input dense outlined v-model="producto.precio" step="0.1" label="Precio*"  clearable counter :rules="ruleNumber" type="number" required placeholder="Escribe el valor de venta">
+                <template v-slot:prepend>
+                  <q-icon name="o_sell" />
+                </template>
+              </q-input>
+            </div>
+            <div class="col-12">
+              <q-select
+                dense
+                outlined
+                v-model="producto.categorias"
+                :options="optionsCategorias"
+                counter
+                hint=" "
+                label="Categoría"
+              >
+                <template v-slot:prepend>
+                  <q-icon name="search" />
+                </template>
+                <template v-slot:option="scope">
+                  <q-item v-bind="scope.itemProps" @click="clickCreateCategoriaProd(scope.opt)">
+                    <q-item-section avatar v-if="scope.opt.label=='Crear una nueva categoría'">
+                      <q-icon name="add_circle_outline" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>{{ scope.opt.label }}</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+
+            <div class="col-12">
+              <q-input type="textarea" dense outlined v-model="producto.descripcion" label="Descripción" hint=""  counter clearable placeholder="Agregar una Descripción">
+                <template v-slot:prepend>
+                  <q-icon name="description" />
+                </template>
+              </q-input>
+
+            </div>
+
+            <div class="col-12 text-center flex flex-center">
+              <q-uploader
+                accept=".jpg, .png"
+                @added="uploadFile"
+                auto-upload
+                max-files="1"
+                label="Ingresar imagen para su producto"
+                flat
+                max-file-size="2000000"
+                @rejected="onRejected"
+                bordered
+              />
+            </div>
+            <div class="col-12">
+              <div class="text-caption text-grey">Te recomendamos que la imagen tenga un tamaño de 500 x 500 px en formato PNG y pese máximo 2MB.</div>
+            </div>
+            <div class="col-12 q-py-md">
+              <q-btn label="Guardar cambios" no-caps color="warning"  class=" text-build text-black full-width" type="submit"/>
+            </div>
+          </div>
+        </q-form>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
+  <q-dialog v-model="dialogCreateCategoria" position="right" full-height :maximized="true">
+    <q-card style="width: 450px; max-width: 80vw;">
+      <q-card-section class="row items-center q-pb-none">
+        <div class="text-h6">Crear categoría</div>
+        <q-space />
+        <q-btn icon="cancel" flat round dense v-close-popup />
+      </q-card-section>
+      <q-card-section class="row items-center no-wrap">
+        <q-form @submit.prevent="createCategoria">
+          <div class="row">
+            <div class="col-12">
+              <div class="text-caption text-grey">Los campos marcados con asterisco (<span class="text-red">*</span>) son obligatorios</div>
+            </div>
+            <div class="col-12 ">
+              <q-input dense outlined v-model="categoria.nombre" label="Nombre de la categoría*" hint="Porfavor ingresar nombre de la categoría" :rules="rule" required counter clearable>
+                <template v-slot:prepend>
+                  <q-icon name="category" />
+                </template>
+              </q-input>
+            </div>
+            <div class="col-12 q-py-md">
+              <q-btn label="Crear categoría" no-caps color="warning"  class=" text-build text-black full-width" type="submit"/>
+            </div>
+          </div>
+        </q-form>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </q-page>
 </template>
 
@@ -395,6 +507,7 @@ export default {
   name: `Inventario`,
   data(){
     return{
+      dialogUpdateProducto:false,
       rule:[
         val => (val && val.length > 0) || 'Por favor escriba algo'
       ],
@@ -406,7 +519,7 @@ export default {
       dialogCreateProducto:false,
       url:process.env.API,
       filterProducto:'',
-      categoria:{
+      categoriaver:{
         label: 'Ver todas las categorias',
         value: '',
         icon: 'polymer'
@@ -420,9 +533,52 @@ export default {
       ],
       producto:{},
       foto:'',
+      dialogCreateCategoria:false,
+      categoria:{}
     }
   },
   methods:{
+    createCategoria(){
+      this.$q.loading.show()
+      this.categoria.negocio_id=this.$store.getters["login/negocio"].id
+      // console.log(this.categoria)
+      this.$store.dispatch("login/createCategoria",this.categoria).then(res=>{
+        this.dialogCreateCategoria=false
+        this.categoria={}
+        this.miscategorias()
+        this.$q.notify({
+          message:"Creado categoria correctamente",
+          color:'green',
+          icon:'check'
+        })
+      })
+      //   .catch(err => {
+      //   this.$q.loading.hide()
+      //   // console.log(err.response.data.errors)
+      //   this.$q.notify({
+      //     message:err.response.data.message,
+      //     color:'red',
+      //     icon:'error'
+      //   })
+      // })
+    },
+    clickCreateCategoriaProd(categoria){
+      this.foto=''
+      if (categoria.label=='Crear una nueva categoría'){
+        this.dialogCreateCategoria=true
+        this.categoria={}
+        this.model={
+          label: 'Sin categoria',
+          value: '',
+          icon: 'polymer'
+        }
+      }
+
+      // console.log(categoria)
+    },
+    clickUpdateProducto(){
+      this.dialogUpdateProducto=true
+    },
     onRejected (rejectedEntries) {
       // Notify plugin needs to be installed
       // https://quasar.dev/quasar-plugins/notify#Installation
@@ -489,6 +645,43 @@ export default {
           .catch(err => reject(err))
       })
     },
+    addCantidad(n){
+      this.producto.cantidad=parseInt(this.producto.cantidad)+1
+    },
+    removeCantidad(n){
+      if (n>0){
+        this.producto.cantidad=parseInt(this.producto.cantidad)-1
+      }
+    },
+    updateProducto(){
+      if (this.foto!=''){
+        this.producto.foto=this.foto
+      }
+      this.$q.loading.show()
+      this.producto.categoria_id=this.producto.categorias.id
+      this.producto.categoria= {
+        id:this.producto.categorias.id,
+        label:this.producto.categorias.label,
+        value:this.producto.categorias.label
+      }
+      this.$store.dispatch("login/updateProducto",this.producto).then(res=>{
+        this.dialogUpdateProducto=false
+        this.misproductos()
+        this.$q.notify({
+          message:"Modificado producto correctamente",
+          color:'green',
+          icon:'check'
+        })
+      }).catch(err => {
+        this.$q.loading.hide();
+        // console.log(err.response.data.errors)
+        this.$q.notify({
+          message:err.response.data.message,
+          color:'red',
+          icon:'error'
+        })
+      })
+    },
     createProducto(){
       this.producto.categoria_id=this.producto.categorias.id
       this.producto.negocio_id=this.$store.getters["login/negocio"].id
@@ -550,6 +743,18 @@ export default {
       })
 
     },
+    miscategorias(){
+      this.$store.dispatch('login/categorias').then((res) =>{
+        this.$q.loading.hide()
+      }).catch(err => {
+        this.$q.loading.hide();
+        this.$q.notify({
+          message:err.response.data.message,
+          color:'red',
+          icon:'error'
+        })
+      })
+    },
     misproductos(){
       this.$store.dispatch('login/productos').then((res) =>{
         this.$q.loading.hide()
@@ -588,13 +793,26 @@ export default {
       let categoria=this.$store.getters["login/categorias"].find(c=>c.id===this.producto.categoria_id)
       // console.log(categoria)
       if (categoria==undefined){
+        this.producto.categorias= {
+          label: 'Sin categoria',
+          value: 'Sin categoria',
+          icon: 'list',
+          id:0
+        }
         this.producto.categoria= {
-          id:'',
-          label:'Sin categoria'
+          id:0,
+          label:'Sin categoria',
+          value:'Sin categoria'
         }
       }else{
         categoria.label=categoria.nombre
         this.producto.categoria=categoria
+        this.producto.categorias={
+          label: categoria.nombre,
+          value: categoria.nombre,
+          icon: 'list',
+          id:categoria.id
+        }
 
       }
       this.foto=''
@@ -603,6 +821,28 @@ export default {
   },
   computed:{
     optionsCategorias(){
+      let cat=[{
+        label: 'Sin categoria',
+        value: 'Sin categoria',
+        icon: 'list',
+        id:0
+      }]
+      this.$store.getters["login/categorias"].forEach(c=>{
+        cat.push({
+          label: c.nombre,
+          value: c.nombre,
+          icon: 'list',
+          id:c.id
+        })
+      })
+      cat.push({
+        label: 'Crear una nueva categoría',
+        value: 'Crear una nueva categoría',
+        icon: 'list'
+      })
+      return cat
+    },
+    optionsCategoriasVer(){
       let cat=[{
         label: 'Ver todas las categorias',
         value: '',

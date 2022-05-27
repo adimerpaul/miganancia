@@ -664,21 +664,22 @@ export  default({
     optionsCategorias(){
       let cat=[{
         label: 'Sin categoria',
-        value: '',
-        icon: 'polymer'
+        value: 'Sin categoria',
+        icon: 'list',
+        id:0
       }]
       this.$store.getters["login/categorias"].forEach(c=>{
         cat.push({
           label: c.nombre,
           value: c.nombre,
-          icon: 'polymer',
+          icon: 'list',
           id:c.id
         })
       })
       cat.push({
         label: 'Crear una nueva categoría',
         value: 'Crear una nueva categoría',
-        icon: 'polymer'
+        icon: 'list'
       })
       return cat
     }
