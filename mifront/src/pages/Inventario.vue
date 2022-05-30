@@ -776,7 +776,7 @@ export default {
       })
     },
     clickDetalleProducto(producto){
-      // console.log(producto)
+
       this.producto={
         cantidad: producto.cantidad,
         categoria_id: producto.categoria_id,
@@ -790,8 +790,17 @@ export default {
         precio: producto.precio,
         visible: producto.visible=="1"?true:false,
       }
-      let categoria=this.$store.getters["login/categorias"].find(c=>c.id===this.producto.categoria_id)
+      // console.log(producto)
+      // return false
+      let cat=this.$store.getters["login/categorias"].find(c=>c.id===this.producto.categoria_id)
+      let categoria={
+        id:cat.id,
+        label:cat.id,
+        nagocio_id:cat.negocio_id,
+        nombre:cat.nombre,
+      }
       // console.log(categoria)
+      // return false
       if (categoria==undefined){
         this.producto.categorias= {
           label: 'Sin categoria',

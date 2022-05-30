@@ -148,7 +148,9 @@
                         <q-item-label>{{$store.getters["login/negocio"].nombre}}</q-item-label>
                         <q-item-label caption>{{$store.getters["login/negocio"].tipo}}</q-item-label>
                       </q-card-section>
-                      <q-card-section @click="dialogcambioempresa=true" class="q-pa-none q-ma-none flex flex-center"> <q-icon name="expand_more" size="xs" /> </q-card-section>
+                      <q-card-section @click="dialogcambioempresa=true" class="q-pa-none q-ma-none flex flex-center">
+                        <q-icon name="arrow_drop_down_circle" size="lg" />
+                      </q-card-section>
                     </q-card-section>
                   </q-card-section>
                 </q-card-section>
@@ -761,7 +763,9 @@ export  default({
           this.$store.dispatch('login/negocios', this.$store.getters["login/user"].id).then((res) =>{
             // console.log(res.data)
             // return false
-            this.$q.loading.hide()
+            this.miscategorias()
+            this.misproductos()
+            // this.$q.loading.hide()
             this.dialogcambioempresa=false
             // this.$router.push('/home')
           }).catch(err => {
@@ -782,6 +786,9 @@ export  default({
       this.producto.negocio_id=this.$store.getters["login/negocio"].id
       if (this.foto!=''){
         this.producto.foto=this.foto
+      }
+      if (this.producto.categoria_id==''){
+        this.producto.categoria_id=null
       }
       this.$q.loading.show()
       // console.log(this.producto)
